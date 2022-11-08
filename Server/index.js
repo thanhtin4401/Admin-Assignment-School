@@ -1,17 +1,30 @@
-import express from "express";
-import bodyParser from "body-parser";
-import cors from "cors";
-import posts from "./routers/posts.js ";
+const express = require("express");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+
+const dotenv = require("dotenv");
+const mongoose = require("mongoose");
+const cookieParser = require("cookie-parser");
+const authRounte = require("./Routers/auth");
+
 const app = express();
-const PORT = process.env.port || 5000;
+dotenv.config();
+
+mongoose.connect(process.env.MONGODB_URL, () => {
+  console.log("CONNECTED TO MONGO DB");
+});
+const PORT = process.env.port || 8000;
 app.listen(PORT, () => {
   console.log(`server is running on port ${PORT}`);
 });
 app.use(bodyParser.json({ limit: "30mb" }));
-app.use(bodyParser.urlencoded({ extended: true, limit: "30mb" }));
 app.use(cors());
-// app.get("/", (req, res) => {
-//   res.send("SUCCESS");
-// });
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: true, limit: "30mb" }));
+//Ngan chan loi
+app.use(cors());
+// de toan bo du lieu tra ve deu la json
 
-app.use("/posts", posts);
+//ROUTER
+app.use("/v1/auth", authRounte);
+app.use(express.json());
