@@ -6,7 +6,7 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const authRounte = require("./Routers/auth");
-
+const userRoute = require("./Routers/user");
 const app = express();
 dotenv.config();
 
@@ -27,4 +27,7 @@ app.use(cors());
 
 //ROUTER
 app.use("/v1/auth", authRounte);
+app.use("/v1/user", userRoute);
 app.use(express.json());
+
+//JSON WEB TOKEN
